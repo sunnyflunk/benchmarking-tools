@@ -3,6 +3,15 @@ Scripts to easily facilitate benchmarking on Linux.
 
 This is a rewrite of my current bash/R benchmarking scripts to bring them into the 21st century, remove their dependence on R and make it fully available for anyone to use. Contributions welcome once the basics are in place.
 
+## How to use
+Clone the repo and run a benchmark. To run the zstd benchmark simply:
+
+```
+git clone https://github.com/sunnyflunk/benchmarking-tools.git
+cd benchmarking-tools
+./run-benchmark.sh zstd
+```
+
 ## Requirements
 - Runs on a barebone system/container/chroot
 - Is portable and not reliant on the downloaded directory
