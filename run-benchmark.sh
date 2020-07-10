@@ -6,6 +6,7 @@ BT_BENCHMARKS_DIR=${executionPath}/benchmarks
 BT_RUNBENCHMARKS_DIR=/tmp/benchmark/${testName}
 BT_SOURCES_DIR=${executionPath}/sources
 # Want this to be shared across installs etc
+BT_RESULTS_DIR=~/BT-Results # Find better dir
 BT_CACHE_DIR=~/.cache/benchmark-tools
 
 
@@ -30,6 +31,11 @@ pushd ${BT_RUNBENCHMARKS_DIR}
 
 # Setup benchmark for tests
 runCommands "${benchmarkSetup[@]}" || serpentFail "Benchmark ${testName} setup failed"
+
+
+# Run benchmarks
+runCommands "${benchmarkTest[@]}"
+
 
 # For debugging
 echo ${1}
