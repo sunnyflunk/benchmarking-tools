@@ -47,6 +47,6 @@ for run in $(seq 1 1 $benchmarkRuns); do
         testValidation=$(runCommands "${benchmarkValidation[$test]}")
 
         # Record results
-        echo "$testDistro, $testKernel, $testDate, ${benchmarkLabels[$test]}, $testResult, $testValidation" >> ${BT_RESULTS_DIR}/$testName.csv
+        echo "$testDistro,$testKernel,$testDate,${benchmarkLabels[$test]},$testResult,$testValidation" >> ${BT_RESULTS_DIR}/$testName.csv
     done
 done
