@@ -1,16 +1,32 @@
 #!/usr/bin/env bash
 
+testName=${1}
 executionPath=$(dirname $(realpath -s $0))
+BT_BENCHMARKS_DIR=${executionPath}/benchmarks
+BT_RUNBENCHMARKS_DIR=/tmp/benchmark/${testName}
+BT_SOURCES_DIR=${executionPath}/sources
+# Want this to be shared across installs etc
+BT_CACHE_DIR=~/.cache/benchmark-tools
+
+# Import shared functions
+. ${executionPath}/common/shared.sh
 
 # Import test information
-testName=${1}
-[ ! -z "${executionPath}/benchmarks/${testName}.sh" ] || serpentFail "Benchmark ${testName} doesn't exist"
-. ${executionPath}/benchmarks/${testName}.sh || serpentFail "Benchmark ${testName} malformed"
+[ ! -z "${BT_BENCHMARKS_DIR}/${testName}.sh" ] || serpentFail "Benchmark ${testName} doesn't exist"
+. ${BT_BENCHMARKS_DIR}/${testName}.sh || serpentFail "Benchmark ${testName} malformed"
+
+# Check basic requirements and fetch sources
+requireTools curl tar
+downloadSource $benchmarkSources
+
 
 # Run benchmark in RAM to save SSD writes
-mkdir -p /tmp/benchmark/${testName} && pushd /tmp/benchmark/${testName}
+mkdir -p ${BT_RUNBENCHMARKS_DIR} || serpentFail "Failed to create benchmark dir"
+pushd ${BT_RUNBENCHMARKS_DIR}
+
 
 
 # For debugging
 echo ${1}
 echo $executionPath
+echo $benchmarkSources

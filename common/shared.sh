@@ -43,14 +43,14 @@ function requireTools()
 function verifyDownload()
 {
     [ ! -z "${1}" ] || serpentFail "Incorrect use of verifyDownload"
-    sourceFile="${executionPath}/sources/${1}"
+    sourceFile="${BT_SOURCES_DIR}/${1}"
     [ -f "${sourceFile}" ] || serpentFail "Missing source file: ${sourceFile}"
     sourceURL="$(cat ${sourceFile} | cut -d ' ' -f 1)"
     sourceHash="$(cat ${sourceFile} | cut -d ' ' -f 2)"
     [ ! -z "${sourceURL}" ] || serpentFail "Missing URL for source: $1"
     [ ! -z "${sourceHash}" ] || serpentFail "Missing hash for source: $1"
     sourcePathBase=$(basename "${sourceURL}")
-    sourcePath="${downloadCache}/${sourcePathBase}"
+    sourcePath="${BT_CACHE_DIR}/${sourcePathBase}"
 
     printInfo "Computing hash for ${sourcePathBase}"
 
@@ -64,16 +64,16 @@ function verifyDownload()
 function downloadSource()
 {
     [ ! -z "${1}" ] || serpentFail "Incorrect use of downloadSource"
-    sourceFile="${executionPath}/sources/${1}"
+    sourceFile="${BT_SOURCES_DIR}/${1}"
     [ -f "${sourceFile}" ] || serpentFail "Missing source file: ${sourceFile}"
     sourceURL="$(cat ${sourceFile} | cut -d ' ' -f 1)"
     sourceHash="$(cat ${sourceFile} | cut -d ' ' -f 2)"
     [ ! -z "${sourceURL}" ] || serpentFail "Missing URL for source: $1"
     [ ! -z "${sourceHash}" ] || serpentFail "Missing hash for source: $1"
     sourcePathBase=$(basename "${sourceURL}")
-    sourcePath="${downloadCache}/${sourcePathBase}"
+    sourcePath="${BT_CACHE_DIR}/${sourcePathBase}"
 
-    mkdir -p "${downloadCache}" || serpentFail "Failed to create download tree"
+    mkdir -p "${BT_CACHE_DIR}" || serpentFail "Failed to create download tree"
 
     if [[ -f "${sourcePath}" ]]; then
         printInfo "Skipping download of ${sourcePathBase}"
