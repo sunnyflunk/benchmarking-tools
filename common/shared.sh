@@ -84,3 +84,13 @@ function downloadSource()
     curl -L --output "${sourcePath}" "${sourceURL}"
     verifyDownload "${1}"
 }
+
+# Run an array of commands
+function runCommands()
+{
+    [ ! -z "${1}" ] || serpentFail "Incorrect use of runCommands"
+    arrayCommands=( "${@}" )
+    for step in ${!arrayCommands[@]}; do
+        eval ${arrayCommands[$step]}
+    done
+}
