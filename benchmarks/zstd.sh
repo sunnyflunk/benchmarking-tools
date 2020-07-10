@@ -16,3 +16,4 @@ benchmarkValidation=("wc -c linux.tar.zst | cut -d ' ' -f 1"
 benchmarkRepetition=(1
                      5
                      1)
+benchmarkAnalyze=( "${benchmarkTest[@]}" )

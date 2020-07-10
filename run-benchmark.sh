@@ -1,22 +1,14 @@
 #!/usr/bin/env bash
 
 testName=${1}
+executionPath=$(dirname $(realpath -s $0))
 # Default number of times to run the tests
 benchmarkRuns=3
-testDistro=`cat /etc/os-release | grep NAME | tail -n1 | cut -d '"' -f 2`
-testKernel=`uname -r`
-testDate=`date +"%d-%b-%Y"`
-executionPath=$(dirname $(realpath -s $0))
-BT_BENCHMARKS_DIR=${executionPath}/benchmarks
-BT_RUNBENCHMARKS_DIR=/tmp/benchmark/${testName}
-BT_SOURCES_DIR=${executionPath}/sources
-# Want this to be shared across installs etc
-BT_RESULTS_DIR=~/BT-Results # Find better dir
-BT_CACHE_DIR=~/.cache/benchmark-tools
 
-
-# Import shared functions
+. ${executionPath}/common/variables.sh
 . ${executionPath}/common/functions.sh
+printInfo "Imported shared bash scripts"
+
 
 # Import test information
 [ ! -z "${BT_BENCHMARKS_DIR}/${testName}.sh" ] || serpentFail "Benchmark ${testName} doesn't exist"
@@ -40,8 +32,9 @@ pushd ${BT_RUNBENCHMARKS_DIR}
 runCommands "${benchmarkSetup[@]}" || serpentFail "Benchmark ${testName} setup failed"
 
 
-# Run benchmarks
-for run in $(seq 1 1 $benchmarkRuns); do
+printInfo "Running benchmarks"
+for run in $(seq 1 1 ${benchmarkRuns}); do
+    printInfo "Begin iteration $run of ${benchmarkRuns}"
     for test in "${!benchmarkTest[@]}"; do
         testResult=$(runBenchmark "${benchmarkTest[$test]}")
         testValidation=$(runCommands "${benchmarkValidation[$test]}")
