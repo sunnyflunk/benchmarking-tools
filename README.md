@@ -22,7 +22,7 @@ cd benchmarking-tools
 ## Roadmap
 - [x] Import boiler plate functions from [bootstrap-scripts](https://github.com/serpent-linux/bootstrap-scripts)
 - [x] Create script to run a zstd benchmark
-- [ ] Create script to run a compile time benchmark
+- [x] Create script to run a compile time benchmark
 - [x] Create script to analyze benchmarks
 - [ ] Generate charts from the results
 - [ ] Cleanup the codebase
