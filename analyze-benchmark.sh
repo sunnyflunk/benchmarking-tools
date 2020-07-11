@@ -14,6 +14,7 @@ requireTools perf valgrind callgrind_annotate
 printInfo "Running analysis tools"
 for test in "${!benchmarkAnalyze[@]}"; do
     printInfo "Begin analysis test $((test+1)) of ${#benchmarkAnalyze[@]}"
+    [ ! -z "${benchmarkPretest[0]}" ] && runCommands "${benchmarkPretest[@]}"
 
     # Run analyze function
     rm -rf ${BT_RUNBENCHMARKS_DIR}/{callgrind*,perf} || serpentFail "Failed to clean up temporary files"
@@ -39,4 +40,5 @@ for test in "${!benchmarkAnalyze[@]}"; do
 
     cp ${BT_RUNBENCHMARKS_DIR}/callgrindevents ${BT_RESULTS_DIR}/Perf-$testName-$testDate-$test
     rm -rf ${BT_RUNBENCHMARKS_DIR}/{callgrind*,perf} || serpentFail "Failed to clean up temporary files"
+    [ ! -z "${benchmarkPosttest[0]}" ] && runCommands "${benchmarkPosttest[@]}"
 done
