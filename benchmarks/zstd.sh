@@ -17,3 +17,6 @@ benchmarkRepetition=(1
                      5
                      1)
 benchmarkAnalyze=( "${benchmarkTest[@]}" )
+
+# Import functions for this benchmark
+. ${executionPath}/common/benchmark-timer.sh

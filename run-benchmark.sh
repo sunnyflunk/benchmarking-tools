@@ -10,7 +10,7 @@ benchmarkRuns=3
 . ${executionPath}/common/functions.sh
 
 printInfo "Preparing benchmark environment"
-. ${executionPath}/common/preparebenchmark.sh
+. ${executionPath}/common/prepare-benchmark.sh
 
 # Ensure results directory exists
 mkdir -p ${BT_RESULTS_DIR} || serpentFail "Failed to create results dir"

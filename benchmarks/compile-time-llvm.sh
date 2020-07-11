@@ -14,18 +14,6 @@ benchmarkValidation=("wc -c $BT_RUNBENCHMARKS_DIR/llvm-10.0.0.src/build/bin/llvm
 benchmarkRepetition=(1)
 benchmarkAnalyze=("${benchmarkTest[@]}")
 
-if [[ `which clang 2>/dev/null` ]]; then
-    CC="clang"
-    CXX="clang++"
-    benchmarkNote="clang"
-elif [[ `which gcc 2>/dev/null` ]]; then
-    CC="gcc"
-    CXX="g++"
-    benchmarkNote="gcc"
-else
-    printError "No usable compiler was found"
-    exit 1
-fi
-
-CFLAGS="-O3 -flto"
-CXXFLAGS="-O3 -flto"
+# Import functions for this benchmark
+. ${executionPath}/common/benchmark-timer.sh
+. ${executionPath}/common/compiler.sh

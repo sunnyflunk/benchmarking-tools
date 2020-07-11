@@ -8,7 +8,7 @@ executionPath=$(dirname $(realpath -s $0))
 . ${executionPath}/common/functions.sh
 
 printInfo "Preparing benchmark environment"
-. ${executionPath}/common/preparebenchmark.sh
+. ${executionPath}/common/prepare-benchmark.sh
 
 requireTools perf valgrind callgrind_annotate
 printInfo "Running analysis tools"
