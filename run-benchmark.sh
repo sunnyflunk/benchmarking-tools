@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 testName=${1}
+testLabel=${2}
 executionPath=$(dirname $(realpath -s $0))
 # Default number of times to run the tests
 benchmarkRuns=3
@@ -23,7 +24,7 @@ for run in $(seq 1 1 ${benchmarkRuns}); do
         testValidation=$(runCommands "${benchmarkValidation[$test]}")
 
         # Record results
-        echo "$testDistro,$testKernel,$testDate,${benchmarkLabels[$test]},$benchmarkNote,$testResult,$testValidation" >> ${BT_RESULTS_DIR}/$testName.csv
+        echo "$testLabel,$testDistro,$testKernel,$testDate,${benchmarkLabels[$test]},$benchmarkNote,$testResult,$testValidation" >> ${BT_RESULTS_DIR}/$testName.csv
         [ ! -z "${benchmarkPosttest[0]}" ] && runCommands "${benchmarkPosttest[@]}"
     done
 done

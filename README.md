@@ -9,7 +9,7 @@ Clone the repo and run a benchmark. To run the zstd benchmark simply:
 ```
 git clone https://github.com/sunnyflunk/benchmarking-tools.git
 cd benchmarking-tools
-./run-benchmark.sh zstd
+./run-benchmark.sh zstd ${testidentifier}
 ```
 
 ## Requirements
