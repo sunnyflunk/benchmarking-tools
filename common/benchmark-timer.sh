@@ -12,13 +12,12 @@ function recordTime () {
 function runBenchmark()
 {
     [ ! -z "${1}" ] || serpentFail "Incorrect use of runBenchmark"
-    arrayCommands=( "${@}" )
     measuredTime=0
     for run in $(seq 1 1 "${benchmarkRepetition[$test]}"); do
-        for step in ${!arrayCommands[@]}; do
-            stepTime=`recordTime "${arrayCommands[$step]}"`
-            measuredTime=`echo "$measuredTime+$stepTime" | bc`
-        done
+        [ ! -z "${benchmarkPretest[0]}" ] && runCommands "${benchmarkPretest[$test]}"
+        stepTime=`recordTime "${benchmarkTest[$test]}"`
+        measuredTime=`echo "$measuredTime+$stepTime" | bc`
+        [ ! -z "${benchmarkPosttest[0]}" ] && runCommands "${benchmarkPosttest[$test]}"
     done
     echo $measuredTime
 }
