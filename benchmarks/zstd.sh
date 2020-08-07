@@ -12,7 +12,7 @@ benchmarkTest=("zstd -k -f -8 -T1 linux.tar -o linux.tar.zst"
                "zstd -k -f -19 -T4 linux.tar -o linux.tar.zst")
 benchmarkValidation=("wc -c linux.tar.zst | cut -d ' ' -f 1"
                      "wc -c linux.tar | cut -d ' ' -f 1"
-                    "wc -c linux.tar.zst | cut -d ' ' -f 1")
+                     "wc -c linux.tar.zst | cut -d ' ' -f 1")
 benchmarkRepetition=(1
                      5
                      1)
