@@ -12,8 +12,10 @@ benchmarkPretest=("cd $BT_RUNBENCHMARKS_DIR/llvm-10.0.0.src"
 benchmarkTest=("make -j4 llvm-ar > $BT_RUNBENCHMARKS_DIR/build.log")
 benchmarkValidation=("wc -c $BT_RUNBENCHMARKS_DIR/llvm-10.0.0.src/build/bin/llvm-ar | cut -d ' ' -f 1")
 benchmarkRepetition=(1)
-benchmarkAnalyze=("${benchmarkTest[@]}")
+benchmarkAnalyze=( "${benchmarkTest[@]}" )
 
 # Import functions for this benchmark
 . ${executionPath}/common/benchmark-timer.sh
 . ${executionPath}/common/compiler.sh
+
+requireTools cmake make

@@ -1,9 +1,6 @@
 #!/bin/true
 
-benchmarkSources=("linux-kernel")
-benchmarkSetup=("cp ${BT_CACHE_DIR}/linux-4.0.tar.xz ."
-                "xz -d linux-4.0.tar.xz"
-                "mv linux-4.0.tar linux.tar")
+. ${executionPath}/benchmarks/helpers/linux-kernel.sh
 benchmarkLabels=("Compress Kernel (-3)"
                  "Compress Kernel (-9)"
                  "Decompress Kernel")
