@@ -7,21 +7,21 @@
 function printWarning()
 {
     echo -en '\e[1m\e[93m[WARNING]\e[0m '
-    echo $*
+    echo -e $*
 }
 
 # Emit an error to tty
 function printError()
 {
     echo -en '\e[1m\e[91m[ERROR]\e[0m '
-    echo $*
+    echo -e $*
 }
 
 # Emit info to tty
 function printInfo()
 {
     echo -en '\e[1m\e[94m[INFO]\e[0m '
-    echo $*
+    echo -e $*
 }
 
 # Failed to do a thing. Exit fatally.
@@ -56,7 +56,10 @@ function verifyDownload()
     computeHash=$(sha256sum "${sourcePath}" | cut -d ' ' -f 1)
     [ $? -eq 0 ] || serpentFail "Failed to compute SHA256sum"
 
-    [ "${computeHash}" == "${sourceHash}" ] || serpentFail "Corrupt download: ${sourcePath}"
+    if [ "${computeHash}" != "${sourceHash}" ]; then
+        rm -v "${sourcePath}"
+        serpentFail "Corrupt download: ${sourcePath}\nExpected: ${sourceHash}\nFound: ${computeHash}"
+    fi
 }
 
 # Download a file from sources/
@@ -76,6 +79,7 @@ function downloadSource()
 
     if [[ -f "${sourcePath}" ]]; then
         printInfo "Skipping download of ${sourcePathBase}"
+        verifyDownload "${1}"
         return
     fi
 
