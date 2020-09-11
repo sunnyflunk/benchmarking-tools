@@ -3,7 +3,7 @@
 benchmarkSources=("llvm")
 benchmarkSetup=("cp ${BT_CACHE_DIR}/llvm-10.0.0.src.tar.xz ."
                 "tar xf llvm-10.0.0.src.tar.xz")
-benchmarkLabels=("Build LLVM")
+benchmarkLabels=("cmake LLVM")
 benchmarkPretest=("cd $BT_RUNBENCHMARKS_DIR/llvm-10.0.0.src"
                   "rm -rf build"
                   "mkdir build"
@@ -17,4 +17,4 @@ benchmarkAnalyze=( "${benchmarkTest[@]}" )
 . ${executionPath}/common/benchmark-timer.sh
 . ${executionPath}/common/compiler.sh
 
-requireTools cmake make
+requireTools cmake
