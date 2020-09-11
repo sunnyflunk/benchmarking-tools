@@ -21,7 +21,7 @@ for test in "${!benchmarkAnalyze[@]}"; do
     eval perf record -z -F 15000 -o ${BT_RUNBENCHMARKS_DIR}/perf.data -- "${benchmarkAnalyze[$test]}" || serpentFail "Failed to record perf"
     [ ! -z "${benchmarkPosttest[0]}" ] && runCommands "${benchmarkPosttest[@]}"
     [ ! -z "${benchmarkPretest[0]}" ] && runCommands "${benchmarkPretest[@]}"
-    eval perf stat -B -e task-clock,cycles,instructions,L1-icache-misses,iTLB-load-misses,cache-references,cache-misses,branches,branch-misses,faults,migrations -o ${BT_RUNBENCHMARKS_DIR}/perf -- "${benchmarkAnalyze[$test]}" || serpentFail "Failed to execute perf"
+    eval perf stat -B -e task-clock,cycles,instructions,L1-icache-misses,iTLB-load-misses,cache-references,cache-misses,branches,branch-misses,faults,context-switches,cpu-migrations -o ${BT_RUNBENCHMARKS_DIR}/perf -- "${benchmarkAnalyze[$test]}" || serpentFail "Failed to execute perf"
 
     eval perf report --stdio --sort dso,sym --percent-limit 0.05 -i ${BT_RUNBENCHMARKS_DIR}/perf.data | grep -v "^#" > ${BT_RESULTS_DIR}/Perf-$testName-$testDate-$test
     echo "" >> ${BT_RESULTS_DIR}/Perf-$testName-$testDate-$test
