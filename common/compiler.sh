@@ -1,10 +1,10 @@
 #!/bin/true
 
-if [[ `which clang 2>/dev/null` ]]; then
+if [[ $(which clang 2>/dev/null) ]]; then
     CC="clang"
     CXX="clang++"
     benchmarkNote="clang"
-elif [[ `which gcc 2>/dev/null` ]]; then
+elif [[ $(which gcc 2>/dev/null) ]]; then
     CC="gcc"
     CXX="g++"
     benchmarkNote="gcc"
