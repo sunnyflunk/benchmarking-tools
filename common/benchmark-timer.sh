@@ -5,7 +5,7 @@ function recordTime () {
     START=$(date +%s.%N)
     eval "${1}"
     FINISH=$(date +%s.%N)
-    echo "$FINISH-$START" | bc
+    echo $(awk "BEGIN {print $FINISH-$START; exit}")
 }
 
 # Run and record benchmark information
@@ -16,7 +16,7 @@ function runBenchmark()
     for run in $(seq 1 1 "${benchmarkRepetition[$test]}"); do
         [ ! -z "${benchmarkPretest[0]}" ] && runCommands "${benchmarkPretest[@]}"
         stepTime=$(recordTime "${benchmarkTest[$test]}")
-        measuredTime=$(echo "$measuredTime+$stepTime" | bc)
+        measuredTime=$(awk "BEGIN {print $measuredTime+$stepTime; exit}")
         [ ! -z "${benchmarkPosttest[0]}" ] && runCommands "${benchmarkPosttest[@]}"
     done
     echo $measuredTime
