@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 testName=${1}
+testLabel=${2}
 executionPath=$(dirname $(realpath -s $0))
 
 # Import shared variables
@@ -23,10 +24,10 @@ for test in "${!benchmarkAnalyze[@]}"; do
     [ ! -z "${benchmarkPretest[0]}" ] && runCommands "${benchmarkPretest[@]}"
     eval perf stat -B -e task-clock,cycles,instructions,L1-icache-misses,iTLB-load-misses,cache-references,cache-misses,branches,branch-misses,faults,alignment-faults,context-switches,cpu-migrations -o ${BT_RUNBENCHMARKS_DIR}/perf-$test -- "${benchmarkAnalyze[$test]}" || serpentFail "Failed to execute perf"
 
-    eval perf report --stdio --sort dso,sym --percent-limit 0.05 -i ${BT_RUNBENCHMARKS_DIR}/perf-$test.data | grep -v "^#" > ${BT_RESULTS_DIR}/Perf-$testName-$testDate-$test
-    echo "" >> ${BT_RESULTS_DIR}/Perf-$testName-$testDate-$test
-    eval perf report --stdio --sort dso -i ${BT_RUNBENCHMARKS_DIR}/perf-$test.data | grep -v "^#" >> ${BT_RESULTS_DIR}/Perf-$testName-$testDate-$test
-    echo "" >> ${BT_RESULTS_DIR}/Perf-$testName-$testDate-$test
-    cat ${BT_RUNBENCHMARKS_DIR}/perf-$test >> ${BT_RESULTS_DIR}/Perf-$testName-$testDate-$test
+    eval perf report --stdio --sort dso,sym --percent-limit 0.05 -i ${BT_RUNBENCHMARKS_DIR}/perf-$test.data | grep -v "^#" > ${BT_RESULTS_DIR}/Perf-$testName-$testLabel-$testDate-$test
+    echo "" >> ${BT_RESULTS_DIR}/Perf-$testName-$testLabel-$testDate-$test
+    eval perf report --stdio --sort dso -i ${BT_RUNBENCHMARKS_DIR}/perf-$test.data | grep -v "^#" >> ${BT_RESULTS_DIR}/Perf-$testName-$testLabel-$testDate-$test
+    echo "" >> ${BT_RESULTS_DIR}/Perf-$testName-$testLabel-$testDate-$test
+    cat ${BT_RUNBENCHMARKS_DIR}/perf-$test >> ${BT_RESULTS_DIR}/Perf-$testName-$testLabel-$testDate-$test
     [ ! -z "${benchmarkPosttest[0]}" ] && runCommands "${benchmarkPosttest[@]}"
 done
