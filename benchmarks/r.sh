@@ -12,4 +12,4 @@ benchmarkAnalyze=( "${benchmarkTest[@]}" )
 # Import functions for this benchmark
 . ${executionPath}/common/benchmark-result.sh
 
-requireTools Rscript
+requireTools cut grep Rscript

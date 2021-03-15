@@ -18,4 +18,4 @@ benchmarkAnalyze=( "${benchmarkTest[@]}" )
 # Import functions for this benchmark
 . ${executionPath}/common/benchmark-timer.sh
 
-requireTools oggenc oggdec
+requireTools cut oggenc oggdec wc

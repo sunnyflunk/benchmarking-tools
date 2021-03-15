@@ -14,4 +14,4 @@ benchmarkAnalyze=( "${benchmarkTest[@]}" )
 . ${executionPath}/common/benchmark-timer.sh
 . ${executionPath}/common/compiler.sh
 
-requireTools cmake make
+requireTools cmake cut make wc

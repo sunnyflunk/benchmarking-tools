@@ -18,4 +18,4 @@ benchmarkAnalyze=( "${benchmarkTest[@]}" )
 # Import functions for this benchmark
 . ${executionPath}/common/benchmark-timer.sh
 
-requireTools bzip2
+requireTools bzip2 cut wc

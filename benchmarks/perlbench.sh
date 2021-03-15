@@ -17,4 +17,4 @@ benchmarkAnalyze=( "${benchmarkTest[@]}" )
 # Import functions for this benchmark
 . ${executionPath}/common/benchmark-result.sh
 
-requireTools perl
+requireTools cat cut grep perl

@@ -18,4 +18,4 @@ benchmarkAnalyze=( "${benchmarkTest[@]}" )
 # Import functions for this benchmark
 . ${executionPath}/common/benchmark-timer.sh
 
-requireTools lz4
+requireTools cut lz4 wc

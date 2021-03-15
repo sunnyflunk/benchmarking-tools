@@ -13,4 +13,4 @@ benchmarkAnalyze=( "${benchmarkTest[@]}" )
 # Import functions for this benchmark
 . ${executionPath}/common/benchmark-result.sh
 
-requireTools python3
+requireTools cut grep python3

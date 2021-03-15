@@ -23,4 +23,4 @@ benchmarkAnalyze=( "${benchmarkTest[@]}" )
 # Import functions for this benchmark
 . ${executionPath}/common/benchmark-timer.sh
 
-requireTools wget
+requireTools cut wc wget
