@@ -1,0 +1,49 @@
+#!/bin/true
+
+# Include some helpers to bring in test files. These include common Sources and Setup functions
+# for easy reuse and fixes
+# linux-kernel setups a kernel source tarball (linux.tar)
+# wavfile setups a wav file to convert (1.wav)
+#. ${executionPath}/benchmarks/helpers/linux-kernel.sh
+#. ${executionPath}/benchmarks/helpers/wavfile.sh
+
+# Files needed for the benchmark to run
+benchmarkSources=("SOURCES1")
+# Setup instructions to prepare the benchmark (run once and as many lines as needed)
+benchmarkSetup=("SETUP1"
+                "SETUP2")
+# Label to name each test (can have multiple tests in a file)
+benchmarkLabels=("LABEL1"
+                 "LABEL2")
+# Instructions to run prior to each run of test. PRETEST1 is run only before TEST1. 
+benchmarkPretest=("PRETEST1"
+                  "PRETEST2")
+# Benchmark to run to generate result.
+benchmarkTest=("TEST1"
+               "TEST2")
+# Instructions to run after each run of test. POSTTEST1 is run only after TEST1. 
+benchmarkPretest=("POSTTEST1"
+                  "POSTTEST2")
+# An optional value to create a comparison value across benchmarks (i.e. compression file size).
+# echo '0' means none.
+benchmarkValidation=("VALIDATION1"
+                     "VALIDATION2")
+# Integer number of runs to accumulate for the results. Particularly if the benchmark is short.
+benchmarkRepetition=(#1
+                     #2)
+# Commands to run under perf for the test in case you want a reduced case as it takes longer.
+# Less important since switching to perf from valgrind.
+# benchmarkAnalyze=( "${benchmarkTest[@]}" ) means the same commands as benchmark
+benchmarkAnalyze=( "ANALYZE1"
+                   "ANALYZE2")
+
+# Import functions to generate the result
+# benchmark-result takes the input from the benchmark run
+# benchmark-timer uses elapsed time
+# compiler sets up some basic compiling variables favouring clang
+#. ${executionPath}/common/benchmark-result.sh
+#. ${executionPath}/common/benchmark-timer.sh
+#. ${executionPath}/common/compiler.sh
+
+# Command line binaries (found via which) that the test needs to work correctly
+requireTools bin1 bin2
