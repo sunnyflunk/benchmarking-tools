@@ -11,7 +11,7 @@ executionPath=$(dirname $(realpath -s $0))
 printInfo "Preparing benchmark environment"
 . ${executionPath}/common/prepare-benchmark.sh
 
-requireTools perf valgrind callgrind_annotate
+requireTools perf
 printInfo "Running analysis tools"
 for test in "${!benchmarkAnalyze[@]}"; do
     printInfo "Begin analysis test $((test+1)) of ${#benchmarkAnalyze[@]}"
