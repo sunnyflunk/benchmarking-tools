@@ -15,13 +15,13 @@ benchmarkSetup=("SETUP1"
 # Label to name each test (can have multiple tests in a file)
 benchmarkLabels=("LABEL1"
                  "LABEL2")
-# Instructions to run prior to each run of test. PRETEST1 is run only before TEST1. 
+# Instructions to run prior to each run of test. PRETEST1 is run only before TEST1.
 benchmarkPretest=("PRETEST1"
                   "PRETEST2")
 # Benchmark to run to generate result.
 benchmarkTest=("TEST1"
                "TEST2")
-# Instructions to run after each run of test. POSTTEST1 is run only after TEST1. 
+# Instructions to run after each run of test. POSTTEST1 is run only after TEST1.
 benchmarkPretest=("POSTTEST1"
                   "POSTTEST2")
 # An optional value to create a comparison value across benchmarks (i.e. compression file size).
