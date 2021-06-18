@@ -5,7 +5,7 @@ testName=${1}
 cat << EOF > /tmp/summarise.R
 # Import data results
 testName <- "$testName"
-dataResults <- read.csv('/home/crimson/BT-Results/$testName.csv', header = FALSE)
+dataResults <- read.csv('~/BT-Results/$testName.csv', header = FALSE)
 colnames(dataResults) <- c("Label", "Distro", "Kernel", "Date", "Test", "Note", "Result", "Validation")
 
 Merged <- paste(dataResults\$Label, dataResults\$Distro, dataResults\$Kernel, dataResults\$Date, dataResults\$Test, dataResults\$Note)
@@ -31,9 +31,9 @@ for( index in 1:length(dataUnique) )
     }
 }
 
-write.csv(dataCombined, '/tmp/summarise.csv', row.names = FALSE)
+write.csv(dataCombined[order(dataCombined\$Test),], '/tmp/summarise.csv', row.names = FALSE)
 options(width=1000)
-print(dataCombined)
+print(dataCombined[order(dataCombined\$Test),])
 EOF
 Rscript /tmp/summarise.R
 echo ""
