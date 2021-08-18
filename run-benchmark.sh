@@ -19,7 +19,12 @@ mkdir -p ${BT_RESULTS_DIR} || serpentFail "Failed to create results dir"
 for run in $(seq 1 1 ${benchmarkRuns}); do
     printInfo "Begin iteration $run of ${benchmarkRuns}"
     for test in "${!benchmarkTest[@]}"; do
-        testResult=$(runBenchmark "${benchmarkTest[$test]}")
+        # If possible run the repeats through perf
+        if [ -z "${benchmarkPretest[$test]}" ] && [ -z "${benchmarkPosttest[$test]}" ]; then
+            testResult=$(runBenchmarkRepeat "${benchmarkTest[$test]}")
+        else
+            testResult=$(runBenchmark "${benchmarkTest[$test]}")
+        fi
         testValidation=$(runCommands "${benchmarkValidation[$test]}")
 
         # Record results
