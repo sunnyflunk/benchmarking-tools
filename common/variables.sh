@@ -2,7 +2,7 @@
 
 # Common variables between all scripts
 
-testDistro=$(cat /etc/os-release | grep NAME | tail -n1 | cut -d '"' -f 2)
+testDistro=$(cat /etc/os-release | grep ^NAME | cut -d '=' -f 2 | sed 's/"//g')
 testKernel=$(uname -r)
 testDate=$(date +"%d-%b-%Y")
 BT_BENCHMARKS_DIR=${executionPath}/benchmarks
