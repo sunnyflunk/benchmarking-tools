@@ -7,7 +7,7 @@ function runBenchmark()
     measuredTime=0
     for run in $(seq 1 1 "${benchmarkRepetition[$test]}"); do
         [ ! -z "${benchmarkPretest[0]}" ] && runCommands "${benchmarkPretest[$test]}"
-        stepTime=$(runCommands "${benchmarkTest[$test]}")
+        stepTime=$(runCommands "perf stat -e task-clock,cycles,instructions,L1-icache-misses,cache-references,cache-misses,branches,branch-misses -o ${BT_RUNBENCHMARKS_DIR}/perf-$test -- ${benchmarkTest[$test]}")
         measuredTime=$(awk "BEGIN {print $measuredTime+$stepTime; exit}")
         [ ! -z "${benchmarkPosttest[0]}" ] && runCommands "${benchmarkPosttest[$test]}"
     done
