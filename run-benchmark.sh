@@ -27,7 +27,15 @@ for run in $(seq 1 1 ${benchmarkRuns}); do
         fi
         testValidation=$(runCommands "${benchmarkValidation[$test]}")
 
+        testInstructions=$(grep " instructions.u" perf-$test | grep -v "not counted" | awk '{ print $1 }' | sed 's/,//g')
+        testCycles=$(grep " cycles.u" perf-$test | grep -v "not counted" | awk '{ print $1 }' | sed 's/,//g')
+        testL1CacheMisses=$(grep " L1-icache-misses.u" perf-$test | grep -v "not counted" | awk '{ print $1 }' | sed 's/,//g')
+        testCacheReferences=$(grep " cache-references.u" perf-$test | grep -v "not counted" | awk '{ print $1 }' | sed 's/,//g')
+        testCacheMisses=$(grep " cache-misses.u" perf-$test | grep -v "not counted" | awk '{ print $1 }' | sed 's/,//g')
+        testBranches=$(grep " branches.u" perf-$test | grep -v "not counted" | awk '{ print $1 }' | sed 's/,//g')
+        testBranchMisses=$(grep " branch-misses.u" perf-$test | grep -v "not counted" | awk '{ print $1 }' | sed 's/,//g')
+
         # Record results
-        echo "$testLabel,$testDistro,$testKernel,$testDate,${benchmarkLabels[$test]},$benchmarkNote,$testResult,$testValidation" >> ${BT_RESULTS_DIR}/$testName.csv
+        echo "$testLabel,$testDistro,$testKernel,$testDate,${benchmarkLabels[$test]},$benchmarkNote,$testResult,$testValidation,$testInstructions,$testCycles,$testL1CacheMisses,$testCacheReferences,$testCacheMisses,$testBranches,$testBranchMisses" >> ${BT_RESULTS_DIR}/$testName.csv
     done
 done
