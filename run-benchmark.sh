@@ -20,7 +20,7 @@ for run in $(seq 1 1 ${benchmarkRuns}); do
     printInfo "Begin iteration $run of ${benchmarkRuns}"
     for test in "${!benchmarkTest[@]}"; do
         # If possible run the repeats through perf
-        if [ -z "${benchmarkPretest[$test]}" ] && [ -z "${benchmarkPosttest[$test]}" ]; then
+        if [ -z "${benchmarkPretest[$test]}" ] && [ -z "${benchmarkPosttest[$test]}" ] && [[ $(type -t runBenchmarkRepeat) == function ]]; then
             testResult=$(runBenchmarkRepeat "${benchmarkTest[$test]}")
         else
             testResult=$(runBenchmark "${benchmarkTest[$test]}")
