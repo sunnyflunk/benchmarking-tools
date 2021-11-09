@@ -5,7 +5,7 @@ testLabel=${2}
 executionPath=$(dirname $(realpath -s $0))
 # Default number of times to run the tests
 benchmarkRuns=3
-perfCommand="perf stat -e task-clock,cycles,instructions,L1-icache-misses,cache-references,cache-misses,branches,branch-misses"
+perfCommand="perf stat -e task-clock,instructions,cycles,context-switches,L1-icache-misses,cache-references,cache-misses,branches,branch-misses"
 
 # Import shared variables
 . ${executionPath}/common/variables.sh
@@ -30,6 +30,7 @@ for run in $(seq 1 1 ${benchmarkRuns}); do
 
         testInstructions=$(grep "  instructions" ${BT_RUNBENCHMARKS_DIR}/perf-$test | grep -v "not counted" | awk '{ print $1 }' | sed 's/,//g')
         testCycles=$(grep "  cycles" ${BT_RUNBENCHMARKS_DIR}/perf-$test | grep -v "not counted" | awk '{ print $1 }' | sed 's/,//g')
+        testContextSwitches=$(grep "  context-switches" ${BT_RUNBENCHMARKS_DIR}/perf-$test | grep -v "not counted" | awk '{ print $1 }' | sed 's/,//g')
         testL1CacheMisses=$(grep "  L1-icache-misses" ${BT_RUNBENCHMARKS_DIR}/perf-$test | grep -v "not counted" | awk '{ print $1 }' | sed 's/,//g')
         testCacheReferences=$(grep "  cache-references" ${BT_RUNBENCHMARKS_DIR}/perf-$test | grep -v "not counted" | awk '{ print $1 }' | sed 's/,//g')
         testCacheMisses=$(grep "  cache-misses" ${BT_RUNBENCHMARKS_DIR}/perf-$test | grep -v "not counted" | awk '{ print $1 }' | sed 's/,//g')
@@ -37,6 +38,6 @@ for run in $(seq 1 1 ${benchmarkRuns}); do
         testBranchMisses=$(grep "  branch-misses" ${BT_RUNBENCHMARKS_DIR}/perf-$test | grep -v "not counted" | awk '{ print $1 }' | sed 's/,//g')
 
         # Record results
-        echo "$testName,$testLabel,$testDistro,$testKernel,$testDate,${benchmarkLabels[$test]},$benchmarkNote,$testResult,$testValidation,$testInstructions,$testCycles,$testL1CacheMisses,$testCacheReferences,$testCacheMisses,$testBranches,$testBranchMisses" >> ${BT_RESULTS_DIR}/results.csv
+        echo "$testName,$testLabel,$testDistro,$testKernel,$testDate,${benchmarkLabels[$test]},$benchmarkNote,$testResult,$testValidation,$testInstructions,$testCycles,$testContextSwitches,$testL1CacheMisses,$testCacheReferences,$testCacheMisses,$testBranches,$testBranchMisses" >> ${BT_RESULTS_DIR}/results.csv
     done
 done

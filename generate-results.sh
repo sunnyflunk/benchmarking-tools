@@ -6,7 +6,7 @@ cat << EOF > /tmp/summarise.R
 # Import data results
 testName <- "$testName"
 dataResults <- read.csv('~/BT-Results/results.csv', header = FALSE)
-colnames(dataResults) <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Note", "Result", "Validation", "Instructions", "Cycles", "L1Misses", "CacheRefs", "CacheMisses", "Branches", "BranchMisses")
+colnames(dataResults) <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Note", "Result", "Validation", "Instructions", "Cycles", "ContextSwitches","L1Misses", "CacheRefs", "CacheMisses", "Branches", "BranchMisses")
 
 dataResults <- subset(dataResults, Benchmark == testName)
 
@@ -24,6 +24,7 @@ for( index in 1:length(dataUnique) )
     tmpSubset\$Instructions <- round(mean(tmp\$Instructions))
     tmpSubset\$ISD <- round(sd(tmp\$Instructions))
     tmpSubset\$Cycles <- round(mean(tmp\$Cycles))
+    tmpSubset\$ContextSwitches <- round(mean(tmp\$ContextSwitches))
     tmpSubset\$L1Misses <- round(mean(tmp\$L1Misses))
     tmpSubset\$CacheRefs <- round(mean(tmp\$CacheRefs))
     tmpSubset\$CacheMisses <- round(mean(tmp\$CacheMisses))
@@ -36,7 +37,7 @@ for( index in 1:length(dataUnique) )
         tmpSubset\$Valid <- NA
     }
 
-    Variables <- c("Label", "Distro", "Kernel", "Date", "Note", "Test", "Result", "RSD", "Instructions", "ISD", "Cycles", "L1Misses", "CacheRefs", "CacheMisses", "Branches", "BranchMisses", "Valid")
+    Variables <- c("Label", "Distro", "Kernel", "Date", "Note", "Test", "Result", "RSD", "Instructions", "ISD", "Cycles", "ContextSwitches", "L1Misses", "CacheRefs", "CacheMisses", "Branches", "BranchMisses", "Valid")
     if( exists("dataCombined") ) {
         dataCombined <- rbind(dataCombined, tmpSubset[, Variables])
     } else {
