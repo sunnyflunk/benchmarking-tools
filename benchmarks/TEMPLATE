@@ -7,6 +7,14 @@
 #. ${executionPath}/benchmarks/helpers/linux-kernel.sh
 #. ${executionPath}/benchmarks/helpers/wavfile.sh
 
+# Import functions to generate the result
+# benchmark-result takes the input from the benchmark run
+# benchmark-timer uses elapsed time
+# compiler sets up some basic compiling variables favouring clang
+#. ${executionPath}/common/benchmark-result.sh
+#. ${executionPath}/common/benchmark-timer.sh
+#. ${executionPath}/common/compiler.sh
+
 # Files needed for the benchmark to run
 benchmarkSources=("SOURCES1")
 # Setup instructions to prepare the benchmark (run once and as many lines as needed)
@@ -36,14 +44,6 @@ benchmarkRepetition=(#1
 # benchmarkAnalyze=( "${benchmarkTest[@]}" ) means the same commands as benchmark
 benchmarkAnalyze=( "ANALYZE1"
                    "ANALYZE2")
-
-# Import functions to generate the result
-# benchmark-result takes the input from the benchmark run
-# benchmark-timer uses elapsed time
-# compiler sets up some basic compiling variables favouring clang
-#. ${executionPath}/common/benchmark-result.sh
-#. ${executionPath}/common/benchmark-timer.sh
-#. ${executionPath}/common/compiler.sh
 
 # Command line binaries (found via which) that the test needs to work correctly
 requireTools bin1 bin2
