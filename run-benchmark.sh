@@ -36,6 +36,6 @@ for run in $(seq 1 1 ${benchmarkRuns}); do
         testBranchMisses=$(grep "  branch-misses" ${BT_RUNBENCHMARKS_DIR}/perf-$test | grep -v "not counted" | awk '{ print $1 }' | sed 's/,//g')
 
         # Record results
-        echo "$testLabel,$testDistro,$testKernel,$testDate,${benchmarkLabels[$test]},$benchmarkNote,$testResult,$testValidation,$testInstructions,$testCycles,$testL1CacheMisses,$testCacheReferences,$testCacheMisses,$testBranches,$testBranchMisses" >> ${BT_RESULTS_DIR}/$testName.csv
+        echo "$testName,$testLabel,$testDistro,$testKernel,$testDate,${benchmarkLabels[$test]},$benchmarkNote,$testResult,$testValidation,$testInstructions,$testCycles,$testL1CacheMisses,$testCacheReferences,$testCacheMisses,$testBranches,$testBranchMisses" >> ${BT_RESULTS_DIR}/results.csv
     done
 done

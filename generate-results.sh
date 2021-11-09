@@ -5,8 +5,10 @@ testName=${1}
 cat << EOF > /tmp/summarise.R
 # Import data results
 testName <- "$testName"
-dataResults <- read.csv('~/BT-Results/$testName.csv', header = FALSE)
-colnames(dataResults) <- c("Label", "Distro", "Kernel", "Date", "Test", "Note", "Result", "Validation", "Instructions", "Cycles", "L1Misses", "CacheRefs", "CacheMisses", "Branches", "BranchMisses")
+dataResults <- read.csv('~/BT-Results/results.csv', header = FALSE)
+colnames(dataResults) <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Note", "Result", "Validation", "Instructions", "Cycles", "L1Misses", "CacheRefs", "CacheMisses", "Branches", "BranchMisses")
+
+dataResults <- subset(dataResults, Benchmark == testName)
 
 Merged <- paste(dataResults\$Label, dataResults\$Distro, dataResults\$Kernel, dataResults\$Date, dataResults\$Test, dataResults\$Note)
 dataResults <- cbind(dataResults, Merged)
