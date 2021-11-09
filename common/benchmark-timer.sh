@@ -2,13 +2,13 @@
 
 # Record the time taken for a command to run
 function recordTime() {
-    eval "perf stat -e task-clock,cycles,instructions,L1-icache-misses,cache-references,cache-misses,branches,branch-misses -o ${BT_RUNBENCHMARKS_DIR}/perf-$test -- ${1}"
+    eval "${perfCommand} -o ${BT_RUNBENCHMARKS_DIR}/perf-$test -- ${1}"
     echo $(grep "time elapsed" ${BT_RUNBENCHMARKS_DIR}/perf-$test | awk '{ print $1 }' )
 }
 
 # Record the time taken for each of x runs
 function recordTimeRepeat() {
-    eval "perf stat -e task-clock,cycles,instructions,L1-icache-misses,cache-references,cache-misses,branches,branch-misses -o ${BT_RUNBENCHMARKS_DIR}/perf-$test --repeat=${benchmarkRepetition[$test]} -- ${1}"
+    eval "${perfCommand} -o ${BT_RUNBENCHMARKS_DIR}/perf-$test --repeat=${benchmarkRepetition[$test]} -- ${1}"
     echo $(grep "time elapsed" ${BT_RUNBENCHMARKS_DIR}/perf-$test | awk '{ print $1 }' )
 }
 

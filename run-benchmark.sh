@@ -5,6 +5,7 @@ testLabel=${2}
 executionPath=$(dirname $(realpath -s $0))
 # Default number of times to run the tests
 benchmarkRuns=3
+perfCommand="perf stat -e task-clock,cycles,instructions,L1-icache-misses,cache-references,cache-misses,branches,branch-misses"
 
 # Import shared variables
 . ${executionPath}/common/variables.sh
