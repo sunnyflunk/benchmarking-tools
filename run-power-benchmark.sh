@@ -25,7 +25,8 @@ printInfo "Preparing benchmark environment"
 . ${executionPath}/common/benchmark-timer.sh
 benchmarkRepetition=(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
 
-# Generate idle data for each field
+# Generate idle data for each field, sleep first as just done some work
+sleep 10
 perf stat -e power/energy-psys/,power/energy-pkg/,power/energy-cores/,power/energy-gpu/,power/energy-ram/ -o ${BT_RUNBENCHMARKS_DIR}/perf-idle -- sleep 10
 
 idleTime=$(grep "time elapsed" ${BT_RUNBENCHMARKS_DIR}/perf-idle | awk '{ print $1 }')
