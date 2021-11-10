@@ -34,7 +34,6 @@ idlePkg=$(echo "scale=2; $(grep "/energy-pkg" ${BT_RUNBENCHMARKS_DIR}/perf-idle 
 idleCores=$(echo "scale=2; $(grep "/energy-cores" ${BT_RUNBENCHMARKS_DIR}/perf-idle | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g') / ${idleTime}" | bc)
 idleGPU=$(echo "scale=2; $(grep "/energy-gpu" ${BT_RUNBENCHMARKS_DIR}/perf-idle | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g') / ${idleTime}" | bc)
 idleRam=$(echo "scale=2; $(grep "/energy-ram" ${BT_RUNBENCHMARKS_DIR}/perf-idle | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g') / ${idleTime}" | bc)
-echo "$idlePsys,$idlePkg,$idleCores,$idleGPU,$idleRam  ${idleTime}"
 
 # Record idle power stats for comparison
 echo "$testName,$testLabel,$testDistro,$testKernel,$testDate,"Idle per second",$benchmarkNote,1,0,$idlePsys,$idlePkg,$idleCores,$idleGPU,$idleRam" >> ${BT_RESULTS_DIR}/results-power.csv
