@@ -25,20 +25,6 @@ printInfo "Preparing benchmark environment"
 . ${executionPath}/common/benchmark-timer.sh
 benchmarkRepetition=(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
 
-# Generate idle data for each field, sleep first as just done some work
-sleep 10
-perf stat -e power/energy-psys/,power/energy-pkg/,power/energy-cores/,power/energy-gpu/,power/energy-ram/ -o ${BT_RUNBENCHMARKS_DIR}/perf-idle -- sleep 10
-
-idleTime=$(grep "time elapsed" ${BT_RUNBENCHMARKS_DIR}/perf-idle | awk '{ print $1 }')
-idlePsys=$(echo "scale=2; $(grep "/energy-psys" ${BT_RUNBENCHMARKS_DIR}/perf-idle | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g') / ${idleTime}" | bc)
-idlePkg=$(echo "scale=2; $(grep "/energy-pkg" ${BT_RUNBENCHMARKS_DIR}/perf-idle | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g') / ${idleTime}" | bc)
-idleCores=$(echo "scale=2; $(grep "/energy-cores" ${BT_RUNBENCHMARKS_DIR}/perf-idle | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g') / ${idleTime}" | bc)
-idleGPU=$(echo "scale=2; $(grep "/energy-gpu" ${BT_RUNBENCHMARKS_DIR}/perf-idle | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g') / ${idleTime}" | bc)
-idleRam=$(echo "scale=2; $(grep "/energy-ram" ${BT_RUNBENCHMARKS_DIR}/perf-idle | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g') / ${idleTime}" | bc)
-
-# Record idle power stats for comparison
-echo "$testName,$testLabel,$testDistro,$testKernel,$testDate,"Idle per second",$benchmarkNote,1,0,$idlePsys,$idlePkg,$idleCores,$idleGPU,$idleRam" >> ${BT_RESULTS_DIR}/results-power.csv
-
 # Ensure results directory exists
 mkdir -p ${BT_RESULTS_DIR} || serpentFail "Failed to create results dir"
 
@@ -49,13 +35,16 @@ for run in $(seq 1 1 ${benchmarkRuns}); do
         testResult=$(runBenchmark "${benchmarkTest[$test]}")
         testValidation=$(runCommands "${benchmarkValidation[$test]}")
 
-        testPsys=$(echo "scale=2; $(grep "/energy-psys" ${BT_RUNBENCHMARKS_DIR}/perf-$test | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g') - ${idlePsys} * ${testResult}" | bc)
-        testPkg=$(echo "scale=2; $(grep "/energy-pkg" ${BT_RUNBENCHMARKS_DIR}/perf-$test | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g') - ${idlePkg} * ${testResult}" | bc)
-        testCores=$(echo "scale=2; $(grep "/energy-cores" ${BT_RUNBENCHMARKS_DIR}/perf-$test | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g') - ${idleCores} * ${testResult}" | bc)
-        testGPU=$(echo "scale=2; $(grep "/energy-gpu" ${BT_RUNBENCHMARKS_DIR}/perf-$test | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g') - ${idleGPU} * ${testResult}" | bc)
-        testRam=$(echo "scale=2; $(grep "/energy-ram" ${BT_RUNBENCHMARKS_DIR}/perf-$test | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g') - ${idleRam} * ${testResult}" | bc)
+        testPsys=$(grep "/energy-psys" ${BT_RUNBENCHMARKS_DIR}/perf-$test | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g')
+        testPkg=$(grep "/energy-pkg" ${BT_RUNBENCHMARKS_DIR}/perf-$test | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g')
+        testCores=$(grep "/energy-cores" ${BT_RUNBENCHMARKS_DIR}/perf-$test | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g')
+        testGPU=$(grep "/energy-gpu" ${BT_RUNBENCHMARKS_DIR}/perf-$test | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g')
+        testRam=$(grep "/energy-ram" ${BT_RUNBENCHMARKS_DIR}/perf-$test | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g')
 
         # Record results
         echo "$testName,$testLabel,$testDistro,$testKernel,$testDate,${benchmarkLabels[$test]},$benchmarkNote,$testResult,$testValidation,$testPsys,$testPkg,$testCores,$testGPU,$testRam" >> ${BT_RESULTS_DIR}/results-power.csv
+
+        # Sleep to let the system go back to normal
+        sleep 2
     done
 done
