@@ -35,7 +35,7 @@ for test in "${!benchmarkAnalyze[@]}"; do
     cat ${BT_RUNBENCHMARKS_DIR}/callgrindtotalevents >> ${BT_RUNBENCHMARKS_DIR}/callgrindtmp
     cat ${BT_RUNBENCHMARKS_DIR}/callgrindtmp | sed ':a;s/\B[0-9]\{3\}\>/,&/;ta' | sort -n | column -t -R1 >> ${BT_RUNBENCHMARKS_DIR}/callgrindevents
 
-    cp ${BT_RUNBENCHMARKS_DIR}/callgrindevents ${BT_RESULTS_DIR}/valgrind-$testName-$testDate-$test
+    cp ${BT_RUNBENCHMARKS_DIR}/callgrindevents ${BT_RESULTS_DIR}/valgrind-$testName-$testLabel-$testDate-$test
     rm -rf ${BT_RUNBENCHMARKS_DIR}/{callgrind*,perf} || serpentFail "Failed to clean up temporary files"
     [ ! -z "${benchmarkPosttest[0]}" ] && runCommands "${benchmarkPosttest[@]}"
 done
