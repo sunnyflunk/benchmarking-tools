@@ -18,14 +18,13 @@ for test in "${!benchmarkAnalyze[@]}"; do
     [ ! -z "${benchmarkPretest[0]}" ] && runCommands "${benchmarkPretest[@]}"
 
     # Run analyze function
-    rm -rf ${BT_RUNBENCHMARKS_DIR}/{callgrind*,perf} || serpentFail "Failed to clean up temporary files"
-    eval valgrind --trace-children=yes --tool=callgrind  --dump-instr=yes --collect-jumps=yes --callgrind-out-file=${BT_RUNBENCHMARKS_DIR}/callgrind -- "${benchmarkAnalyze[$test]}" || serpentFail "Failed to execute valgrind"
+    eval valgrind --trace-children=yes --tool=callgrind  --dump-instr=yes --collect-jumps=yes --callgrind-out-file=${BT_RUNBENCHMARKS_DIR}/callgrind-$test -- "${benchmarkAnalyze[$test]}" || serpentFail "Failed to execute valgrind"
 
-    callgrind_annotate ${BT_RUNBENCHMARKS_DIR}/callgrind | grep PROGRAM | awk '{ print $1 }' | sed 's/,//g' > ${BT_RUNBENCHMARKS_DIR}/callgrindtotalevents || serpentFail "Failed to execute callgrind_annotate"
-    callgrind_annotate --threshold=99.99 ${BT_RUNBENCHMARKS_DIR}/callgrind | grep ]$ > ${BT_RUNBENCHMARKS_DIR}/callgrindevents || serpentFail "Failed to execute callgrind_annotate"
+    callgrind_annotate ${BT_RUNBENCHMARKS_DIR}/callgrind-$test | grep PROGRAM | awk '{ print $1 }' | sed 's/,//g' > ${BT_RUNBENCHMARKS_DIR}/callgrindtotalevents || serpentFail "Failed to execute callgrind_annotate"
+    callgrind_annotate --threshold=99.99 ${BT_RUNBENCHMARKS_DIR}/callgrind-$test | grep ]$ > ${BT_RUNBENCHMARKS_DIR}/callgrindevents || serpentFail "Failed to execute callgrind_annotate"
     echo "" >> ${BT_RUNBENCHMARKS_DIR}/callgrindevents
 
-    LIBS=`callgrind_annotate --threshold=99.99 ${BT_RUNBENCHMARKS_DIR}/callgrind | grep ]$ | cut -d '[' -f 2 | sed -e 's/\]//' | sort | uniq`
+    LIBS=`callgrind_annotate --threshold=99.99 ${BT_RUNBENCHMARKS_DIR}/callgrind-$test | grep ]$ | cut -d '[' -f 2 | sed -e 's/\]//' | sort | uniq`
     for i in ${LIBS}; do
         SIZE=`cat ${BT_RUNBENCHMARKS_DIR}/callgrindevents | grep ${i} | sed 's/,//g' | awk '{s+=$1} END {printf "%.0f", s}'`
 
