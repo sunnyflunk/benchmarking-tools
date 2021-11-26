@@ -18,7 +18,6 @@ for test in "${!benchmarkAnalyze[@]}"; do
     [ ! -z "${benchmarkPretest[0]}" ] && runCommands "${benchmarkPretest[@]}"
 
     # Run analyze function
-    rm -rf ${BT_RUNBENCHMARKS_DIR}/perf* || serpentFail "Failed to clean up temporary files"
     eval perf record -z -F 15000 -o ${BT_RUNBENCHMARKS_DIR}/perf-$test.data -- "${benchmarkAnalyze[$test]}" || serpentFail "Failed to record perf"
 
     eval perf report --stdio --sort dso,sym --percent-limit 0.05 -i ${BT_RUNBENCHMARKS_DIR}/perf-$test.data | grep -v "^#" > ${BT_RESULTS_DIR}/perf-$testName-$testLabel-$testDate-$test
