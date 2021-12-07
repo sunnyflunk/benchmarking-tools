@@ -1,23 +1,19 @@
 #!/usr/bin/env bash
 
-testName=${1}
-
 cat << EOF > /tmp/summarise.R
 # Import data results
-testName <- "$testName"
+testName <- "$1"
 dataResults <- read.csv('~/BT-Results/results.csv', header = FALSE)
 colnames(dataResults) <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Note", "Result", "Validation", "Instructions", "Cycles", "ContextSwitches","L1Misses", "CacheRefs", "CacheMisses", "Branches", "BranchMisses")
 
-dataResults <- subset(dataResults, Benchmark == testName)
-
-Merged <- paste(dataResults\$Label, dataResults\$Distro, dataResults\$Kernel, dataResults\$Date, dataResults\$Test, dataResults\$Note)
+Merged <- paste(dataResults\$Benchmark, dataResults\$Label, dataResults\$Distro, dataResults\$Kernel, dataResults\$Date, dataResults\$Test, dataResults\$Note)
 dataResults <- cbind(dataResults, Merged)
 
 dataUnique <- unique(dataResults\$Merged)
 for( index in 1:length(dataUnique) )
 {
     tmp <- subset(dataResults, Merged == dataUnique[index])
-    tmpSubset <- tmp[1,c("Label", "Distro", "Kernel", "Date", "Note", "Test", "Merged")]
+    tmpSubset <- tmp[1,c("Benchmark", "Label", "Distro", "Kernel", "Date", "Note", "Test", "Merged")]
     tmpSubset\$Result <- mean(tmp\$Result)
     tmpSubset\$RSD <- sd(tmp\$Result)
 
@@ -37,12 +33,17 @@ for( index in 1:length(dataUnique) )
         tmpSubset\$Valid <- NA
     }
 
-    Variables <- c("Label", "Distro", "Kernel", "Date", "Note", "Test", "Result", "RSD", "Instructions", "ISD", "Cycles", "ContextSwitches", "L1Misses", "CacheRefs", "CacheMisses", "Branches", "BranchMisses", "Valid")
+    Variables <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Note", "Test", "Result", "RSD", "Instructions", "ISD", "Cycles", "ContextSwitches", "L1Misses", "CacheRefs", "CacheMisses", "Branches", "BranchMisses", "Valid")
     if( exists("dataCombined") ) {
         dataCombined <- rbind(dataCombined, tmpSubset[, Variables])
     } else {
         dataCombined <- tmpSubset[, Variables]
     }
+}
+
+if ( testName != "" )
+{
+    dataCombined <- subset(dataCombined, Benchmark == testName)
 }
 
 write.csv(dataCombined[order(dataCombined\$Test),], '/tmp/summarise.csv', row.names = FALSE)
