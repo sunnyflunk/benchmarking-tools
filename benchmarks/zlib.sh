@@ -3,7 +3,7 @@
 . ${executionPath}/benchmarks/helpers/linux-kernel.sh
 . ${executionPath}/common/compiler.sh
 benchmarkSetup=("${benchmarkSetup[@]}"
-                "wget https://raw.githubusercontent.com/madler/zlib/master/test/minigzip.c"
+                "curl https://raw.githubusercontent.com/madler/zlib/master/test/minigzip.c -o minigzip.c"
                 "${CC} ${CFLAGS} minigzip.c -o minigzipsh -lz"
                 "cp linux.tar linux.tar.tmp"
                 "./minigzipsh linux.tar"
@@ -23,4 +23,4 @@ benchmarkAnalyze=( "${benchmarkTest[@]}" )
 # Import functions for this benchmark
 . ${executionPath}/common/benchmark-timer.sh
 
-requireTools cut wc wget
+requireTools cut wc
