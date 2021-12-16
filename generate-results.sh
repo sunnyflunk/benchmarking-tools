@@ -14,8 +14,8 @@ for( index in 1:length(dataUnique) )
 {
     tmp <- subset(dataResults, Merged == dataUnique[index])
     tmpSubset <- tmp[1,c("Benchmark", "Label", "Distro", "Kernel", "Date", "Note", "Test", "Merged")]
-    tmpSubset\$Result <- mean(tmp\$Result)
-    tmpSubset\$RSD <- sd(tmp\$Result)
+    tmpSubset\$Result <- round(mean(tmp\$Result),3)
+    tmpSubset\$RSD <- round(sd(tmp\$Result),3)
 
     tmpSubset\$Instructions <- round(mean(tmp\$Instructions))
     tmpSubset\$ISD <- round(sd(tmp\$Instructions))
@@ -48,7 +48,7 @@ if ( testName != "" )
 
 write.csv(dataCombined[order(dataCombined\$Test),], '/tmp/summarise.csv', row.names = FALSE)
 options(width=1000)
-print(dataCombined[order(dataCombined\$Test),])
+print(dataCombined[order(dataCombined\$Benchmark, dataCombined\$Test, dataCombined\$Note),])
 EOF
 Rscript /tmp/summarise.R
 echo ""
