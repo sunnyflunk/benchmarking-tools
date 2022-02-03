@@ -3,6 +3,8 @@
 testName=${1}
 testLabel=${2}
 executionPath=$(dirname $(realpath -s $0))
+# If installed, change the path to where it is actually installed
+if [ "${executionPath}" == "/usr/bin" ]; then executionPath=/usr/share/benchmarking-tools; fi
 # Default number of times to run the tests
 benchmarkRuns=3
 perfCommand="perf stat -e task-clock,instructions,cycles,context-switches,L1-icache-misses,cache-references,cache-misses,branches,branch-misses"
