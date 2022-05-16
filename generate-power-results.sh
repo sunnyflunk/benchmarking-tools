@@ -14,7 +14,7 @@ for( index in 1:length(dataUnique) )
 {
     tmp <- subset(dataResults, Merged == dataUnique[index])
     tmpSubset <- tmp[1,c("Benchmark", "Label", "Distro", "Kernel", "Date", "Note", "Test", "Merged")]
-    tmpSubset\$Time <- mean(tmp\$Time)
+    tmpSubset\$Time <- round(mean(tmp\$Time), digits=2)
 
     tmpSubset\$EPsys <- round(mean(tmp\$EPsys), digits=2)
     tmpSubset\$EPkg <- round(mean(tmp\$EPkg), digits=2)
