@@ -12,7 +12,8 @@
 
 # Check basic requirements and fetch sources
 requireTools curl tar
-downloadSource $benchmarkSources
+# We don't always need to fetch a source
+if [ -z "${1}" ]; then downloadSource $benchmarkSources; fi
 
 
 # Run benchmark in RAM to save SSD writes

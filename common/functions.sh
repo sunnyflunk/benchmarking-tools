@@ -41,7 +41,6 @@ function requireTools()
 # Verify the download is correct
 function verifyDownload()
 {
-    [ ! -z "${1}" ] || serpentFail "Incorrect use of verifyDownload"
     sourceFile="${BT_SOURCES_DIR}/${1}"
     [ -f "${sourceFile}" ] || serpentFail "Missing source file: ${sourceFile}"
     sourceURL="$(cat ${sourceFile} | cut -d ' ' -f 1)"
