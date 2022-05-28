@@ -15,6 +15,8 @@ requireTools curl tar
 # We don't always need to fetch a source
 if [ -z "${1}" ]; then downloadSource $benchmarkSources; fi
 
+# Ensure results directory exists
+mkdir -p ${BT_RESULTS_DIR} || serpentFail "Failed to create results dir"
 
 # Run benchmark in RAM to save SSD writes
 rm -rf ${BT_RUNBENCHMARKS_DIR} || serpentFail "Failed to remove pre-existing benchmark dir"

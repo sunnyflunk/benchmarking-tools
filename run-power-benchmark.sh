@@ -34,9 +34,6 @@ printInfo "Preparing benchmark environment"
 . ${executionPath}/common/benchmark-timer.sh
 benchmarkRepetition=(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
 
-# Ensure results directory exists
-mkdir -p ${BT_RESULTS_DIR} || serpentFail "Failed to create results dir"
-
 for run in $(seq 1 1 ${benchmarkRuns}); do
     printInfo "Begin iteration $run of ${benchmarkRuns}"
     for test in "${!benchmarkTest[@]}"; do
