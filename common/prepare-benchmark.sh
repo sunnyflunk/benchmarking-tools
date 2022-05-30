@@ -24,4 +24,4 @@ mkdir -p ${BT_RUNBENCHMARKS_DIR} || serpentFail "Failed to create benchmark dir"
 pushd ${BT_RUNBENCHMARKS_DIR}
 
 # Setup benchmark for tests
-runCommands "${benchmarkSetup[@]}" || serpentFail "Benchmark ${testName} setup failed"
+if [ -z "${1}" ]; then runCommands "${benchmarkSetup[@]}" || serpentFail "Benchmark ${testName} setup failed"; fi
