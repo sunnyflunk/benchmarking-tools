@@ -26,6 +26,8 @@ printInfo "Preparing benchmark environment"
 for run in $(seq 1 1 ${benchmarkRuns}); do
     printInfo "Begin iteration $run of ${benchmarkRuns}"
     for test in "${!benchmarkTest[@]}"; do
+        # Add quick idle for system to return to idle
+        sleep 5
         # If possible run the repeats through perf
         if [ -z "${benchmarkPretest[$test]}" ] && [ -z "${benchmarkPosttest[$test]}" ] && [ "$(type -t runBenchmarkRepeat)" == "function" ]; then
             testResult=$(runBenchmarkRepeat "${benchmarkTest[$test]}")

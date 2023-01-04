@@ -37,6 +37,8 @@ benchmarkRepetition=(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 for run in $(seq 1 1 ${benchmarkRuns}); do
     printInfo "Begin iteration $run of ${benchmarkRuns}"
     for test in "${!benchmarkTest[@]}"; do
+        # Wait to settle system after previous test
+        sleep 10
         # If possible run the repeats through perf
         testResult=$(runBenchmark "${benchmarkTest[$test]}")
         testValidation=$(runCommands "${benchmarkValidation[$test]}")
