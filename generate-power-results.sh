@@ -4,16 +4,16 @@ cat << EOF > /tmp/summarise.R
 # Import data results
 testName <- "$1"
 dataResults <- read.csv('~/BT-Results/results-power.csv', header = FALSE)
-colnames(dataResults) <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Note", "Time", "Validation", "EPsys", "EPkg", "ECores", "EGPU", "ERam")
+colnames(dataResults) <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Time", "Validation", "EPsys", "EPkg", "ECores", "EGPU", "ERam")
 
-Merged <- paste(dataResults\$Benchmark, dataResults\$Label, dataResults\$Distro, dataResults\$Kernel, dataResults\$Date, dataResults\$Test, dataResults\$Note)
+Merged <- paste(dataResults\$Benchmark, dataResults\$Label, dataResults\$Distro, dataResults\$Kernel, dataResults\$Date, dataResults\$Test)
 dataResults <- cbind(dataResults, Merged)
 
 dataUnique <- unique(dataResults\$Merged)
 for( index in 1:length(dataUnique) )
 {
     tmp <- subset(dataResults, Merged == dataUnique[index])
-    tmpSubset <- tmp[1,c("Benchmark", "Label", "Distro", "Kernel", "Date", "Note", "Test", "Merged")]
+    tmpSubset <- tmp[1,c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Merged")]
     tmpSubset\$Time <- round(mean(tmp\$Time), digits=2)
 
     tmpSubset\$EPsys <- round(mean(tmp\$EPsys), digits=2)
@@ -28,7 +28,7 @@ for( index in 1:length(dataUnique) )
         tmpSubset\$Valid <- NA
     }
 
-    Variables <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Note", "Test", "Time", "EPsys", "EPkg", "ECores", "EGPU", "ERam", "Valid")
+    Variables <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Time", "EPsys", "EPkg", "ECores", "EGPU", "ERam", "Valid")
     if( exists("dataCombined") ) {
         dataCombined <- rbind(dataCombined, tmpSubset[, Variables])
     } else {
@@ -43,7 +43,7 @@ if ( testName != "" )
 
 write.csv(dataCombined[order(dataCombined\$Test),], '/tmp/summarise.csv', row.names = FALSE)
 options(width=1000)
-print(dataCombined[order(dataCombined\$Test),])
+print(dataCombined[order(dataCombined\$Benchmark, dataCombined\$Test),])
 EOF
 Rscript /tmp/summarise.R
 echo ""

@@ -2,7 +2,7 @@
 
 # Import functions for this benchmark
 . ${executionPath}/common/benchmark-timer.sh
-. ${executionPath}/common/compiler.sh
+. ${executionPath}/common/compiler-clang.sh
 . ${executionPath}/benchmarks/helpers/llvm.sh
 
 benchmarkLabels=("cmake LLVM")

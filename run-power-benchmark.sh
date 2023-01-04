@@ -50,7 +50,7 @@ for run in $(seq 1 1 ${benchmarkRuns}); do
         testRam=$(grep "/energy-ram" ${BT_RUNBENCHMARKS_DIR}/perf-$test | sed 's|<not|0|' | awk '{ print $1 }' | sed 's/,//g')
 
         # Record results
-        echo "$testName,$testLabel,$testDistro,$testKernel,$testDate,${benchmarkLabels[$test]},$benchmarkNote,$testResult,$testValidation,$testPsys,$testPkg,$testCores,$testGPU,$testRam" >> ${BT_RESULTS_DIR}/results-power.csv
+        echo "$testName,$testLabel,$testDistro,$testKernel,$testDate,${benchmarkLabels[$test]},$testResult,$testValidation,$testPsys,$testPkg,$testCores,$testGPU,$testRam" >> ${BT_RESULTS_DIR}/results-power.csv
 
         # Sleep to let the system go back to normal
         sleep 2

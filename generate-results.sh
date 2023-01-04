@@ -4,16 +4,16 @@ cat << EOF > /tmp/summarise.R
 # Import data results
 testName <- "$1"
 dataResults <- read.csv('~/BT-Results/results.csv', header = FALSE)
-colnames(dataResults) <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Note", "Result", "Validation", "Instructions", "Cycles", "ContextSwitches","L1Misses", "CacheRefs", "CacheMisses", "Branches", "BranchMisses")
+colnames(dataResults) <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Result", "Validation", "Instructions", "Cycles", "ContextSwitches","L1Misses", "CacheRefs", "CacheMisses", "Branches", "BranchMisses")
 
-Merged <- paste(dataResults\$Benchmark, dataResults\$Label, dataResults\$Distro, dataResults\$Kernel, dataResults\$Date, dataResults\$Test, dataResults\$Note)
+Merged <- paste(dataResults\$Benchmark, dataResults\$Label, dataResults\$Distro, dataResults\$Kernel, dataResults\$Date, dataResults\$Test)
 dataResults <- cbind(dataResults, Merged)
 
 dataUnique <- unique(dataResults\$Merged)
 for( index in 1:length(dataUnique) )
 {
     tmp <- subset(dataResults, Merged == dataUnique[index])
-    tmpSubset <- tmp[1,c("Benchmark", "Label", "Distro", "Kernel", "Date", "Note", "Test", "Merged")]
+    tmpSubset <- tmp[1,c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Merged")]
     tmpSubset\$Result <- round(mean(tmp\$Result),3)
     tmpSubset\$RSD <- round(sd(tmp\$Result),3)
 
@@ -33,7 +33,7 @@ for( index in 1:length(dataUnique) )
         tmpSubset\$Valid <- NA
     }
 
-    Variables <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Note", "Test", "Result", "RSD", "Instructions", "ISD", "Cycles", "ContextSwitches", "L1Misses", "CacheRefs", "CacheMisses", "Branches", "BranchMisses", "Valid")
+    Variables <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Result", "RSD", "Instructions", "ISD", "Cycles", "ContextSwitches", "L1Misses", "CacheRefs", "CacheMisses", "Branches", "BranchMisses", "Valid")
     if( exists("dataCombined") ) {
         dataCombined <- rbind(dataCombined, tmpSubset[, Variables])
     } else {
@@ -48,7 +48,7 @@ if ( testName != "" )
 
 write.csv(dataCombined[order(dataCombined\$Test),], '/tmp/summarise.csv', row.names = FALSE)
 options(width=1000)
-print(dataCombined[order(dataCombined\$Benchmark, dataCombined\$Test, dataCombined\$Note),])
+print(dataCombined[order(dataCombined\$Benchmark, dataCombined\$Test),])
 EOF
 Rscript /tmp/summarise.R
 echo ""

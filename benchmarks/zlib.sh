@@ -1,7 +1,7 @@
 #!/bin/true
 
 . ${executionPath}/benchmarks/helpers/linux-kernel.sh
-. ${executionPath}/common/compiler.sh
+. ${executionPath}/common/compiler-gcc.sh
 benchmarkSetup=("${benchmarkSetup[@]}"
                 "curl https://raw.githubusercontent.com/madler/zlib/master/test/minigzip.c -o minigzip.c"
                 "${CC} ${CFLAGS} minigzip.c -o minigzipsh -lz"

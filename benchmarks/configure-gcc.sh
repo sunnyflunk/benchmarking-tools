@@ -2,7 +2,7 @@
 
 # Import functions for this benchmark
 . ${executionPath}/common/benchmark-timer.sh
-. ${executionPath}/common/compiler.sh
+. ${executionPath}/common/compiler-gcc.sh
 
 benchmarkSources=("gettext")
 benchmarkSetup=("cp ${BT_CACHE_DIR}/gettext-0.21.tar.xz ."
