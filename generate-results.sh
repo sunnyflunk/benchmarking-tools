@@ -46,7 +46,7 @@ if ( testName != "" )
     dataCombined <- subset(dataCombined, Benchmark == testName)
 }
 
-write.csv(dataCombined[order(dataCombined\$Test),], '/tmp/summarise.csv', row.names = FALSE)
+write.csv(dataCombined[order(dataCombined\$Benchmark, dataCombined\$Test),], '/tmp/summarise.csv', row.names = FALSE)
 options(width=1000)
 print(dataCombined[order(dataCombined\$Benchmark, dataCombined\$Test),])
 EOF
