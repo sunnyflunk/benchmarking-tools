@@ -30,7 +30,7 @@ for run in $(seq 1 1 ${benchmarkRuns}); do
         # Add quick idle for system to return to idle
         sleep 5
         # If possible run the repeats through perf
-        if [ -z "${benchmarkPretest[$test]}" ] && [ -z "${benchmarkPosttest[$test]}" ] && [ "$(type -t runBenchmarkRepeat)" == "function" ]; then
+        if [ -z "${benchmarkPretest[$test]}" ] && [ -z "${benchmarkPosttest[$test]}" ] && [ -z "${DATA_BENCHMARK}" ]; then
             testResult=$(runBenchmarkRepeat "${benchmarkTest[$test]}")
         else
             testResult=$(runBenchmark "${benchmarkTest[$test]}")
