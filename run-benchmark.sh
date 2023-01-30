@@ -22,6 +22,7 @@ fi
 
 printInfo "Preparing benchmark environment"
 . ${executionPath}/common/prepare-benchmark.sh
+. ${executionPath}/common/benchmark.sh
 
 for run in $(seq 1 1 ${benchmarkRuns}); do
     printInfo "Begin iteration $run of ${benchmarkRuns}"

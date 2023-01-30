@@ -1,5 +1,8 @@
 #!/bin/true
 
+# Indicate that benchmark is not using elapsed time as the measure for the result
+# export DATA_BENCHMARK=1
+
 # Include some helpers to bring in test files. These include common Sources and Setup functions
 # for easy reuse and fixes
 # linux-kernel setups a kernel source tarball (linux.tar)
@@ -8,11 +11,7 @@
 #. ${executionPath}/benchmarks/helpers/wavfile.sh
 
 # Import functions to generate the result
-# benchmark-result takes the input from the benchmark run
-# benchmark-timer uses elapsed time
 # compiler sets up some basic compiling variables favouring clang
-#. ${executionPath}/common/benchmark-result.sh
-#. ${executionPath}/common/benchmark-timer.sh
 #. ${executionPath}/common/compiler-clang.sh
 #. ${executionPath}/common/compiler-gcc.sh
 

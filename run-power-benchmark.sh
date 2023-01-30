@@ -29,9 +29,9 @@ fi
 
 printInfo "Preparing benchmark environment"
 . ${executionPath}/common/prepare-benchmark.sh
+. ${executionPath}/common/benchmark.sh
 
 # Override some values, we need timer function for per /s W values and force one repetition as that's all that's measured
-. ${executionPath}/common/benchmark-timer.sh
 benchmarkRepetition=(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)
 
 for run in $(seq 1 1 ${benchmarkRuns}); do

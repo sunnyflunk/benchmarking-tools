@@ -1,5 +1,6 @@
 #!/bin/true
 
+export DATA_BENCHMARK=1
 benchmarkSources=("pybench")
 benchmarkSetup=("tar xf ${BT_CACHE_DIR}/pybench-2018-02-16.tar.gz"
                 "cd pybench-2018-02-16")
@@ -9,8 +10,5 @@ benchmarkPosttest=("rm /tmp/pybench")
 benchmarkValidation=("echo '0'")
 benchmarkRepetition=(1)
 benchmarkAnalyze=( "${benchmarkTest[@]}" )
-
-# Import functions for this benchmark
-. ${executionPath}/common/benchmark-result.sh
 
 requireTools cut grep python3

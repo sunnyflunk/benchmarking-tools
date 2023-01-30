@@ -1,6 +1,8 @@
 #!/bin/true
 
+# Import functions for this benchmark
 . ${executionPath}/benchmarks/helpers/wavfile.sh
+
 benchmarkLabels=("Encode (-b 128)"
                  "Encode (-q 10)"
                  "Decode")
@@ -14,8 +16,5 @@ benchmarkRepetition=(2
                      2
                      3)
 benchmarkAnalyze=( "${benchmarkTest[@]}" )
-
-# Import functions for this benchmark
-. ${executionPath}/common/benchmark-timer.sh
 
 requireTools cut oggenc oggdec wc

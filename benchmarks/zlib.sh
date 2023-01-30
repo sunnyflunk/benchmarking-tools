@@ -1,7 +1,9 @@
 #!/bin/true
 
+# Import functions for this benchmark
 . ${executionPath}/benchmarks/helpers/linux-kernel.sh
 . ${executionPath}/common/compiler-gcc.sh
+
 benchmarkSetup=("${benchmarkSetup[@]}"
                 "curl https://raw.githubusercontent.com/madler/zlib/master/test/minigzip.c -o minigzip.c"
                 "${CC} ${CFLAGS} minigzip.c -o minigzipsh -lz"
@@ -19,8 +21,5 @@ benchmarkValidation=("wc -c linux.tar.gz | cut -d ' ' -f 1"
 benchmarkRepetition=(1
                      3)
 benchmarkAnalyze=( "${benchmarkTest[@]}" )
-
-# Import functions for this benchmark
-. ${executionPath}/common/benchmark-timer.sh
 
 requireTools cut wc

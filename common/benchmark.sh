@@ -4,15 +4,19 @@
 function runBenchmark()
 {
     [ ! -z "${1}" ] || serpentFail "Incorrect use of runBenchmark"
-    measuredTime=0
+    measuredResult=0
     for run in $(seq 1 1 "${benchmarkRepetition[$test]}"); do
         [ ! -z "${benchmarkPretest[$test]}" ] && runCommands "${benchmarkPretest[$test]}"
-        eval "${perfCommand} -o ${BT_RUNBENCHMARKS_DIR}/perf-$test -- ${benchmarkTest[$test]} > /dev/null 2>&1"
-        stepTime=$(grep "time elapsed" ${BT_RUNBENCHMARKS_DIR}/perf-$test | awk '{ print $1 }')
-        measuredTime=$(awk "BEGIN {print $measuredTime+$stepTime; exit}")
+        if [ -z ${DATA_BENCHMARK} ]; then
+            eval "${perfCommand} -o ${BT_RUNBENCHMARKS_DIR}/perf-$test -- ${benchmarkTest[$test]} > /dev/null 2>&1"
+            stepResult=$(grep "time elapsed" ${BT_RUNBENCHMARKS_DIR}/perf-$test | awk '{ print $1 }')
+        else
+            stepResult=$(runCommands "${perfCommand} -o ${BT_RUNBENCHMARKS_DIR}/perf-$test -- ${benchmarkTest[$test]}")
+        fi
+        measuredResult=$(awk "BEGIN {print $measuredResult+$stepResult; exit}")
         [ ! -z "${benchmarkPosttest[$test]}" ] && runCommands "${benchmarkPosttest[$test]}"
     done
-    echo $(awk "BEGIN {print $measuredTime/${benchmarkRepetition[$test]}; exit}")
+    echo $(awk "BEGIN {print $measuredResult/${benchmarkRepetition[$test]}; exit}")
 }
 
 # Run and record benchmark information

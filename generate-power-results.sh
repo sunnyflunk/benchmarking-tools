@@ -4,7 +4,7 @@ cat << EOF > /tmp/summarise.R
 # Import data results
 testName <- "$1"
 dataResults <- read.csv('~/BT-Results/results-power.csv', header = FALSE)
-colnames(dataResults) <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Time", "Validation", "EPsys", "EPkg", "ECores", "EGPU", "ERam")
+colnames(dataResults) <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Result", "Validation", "EPsys", "EPkg", "ECores", "EGPU", "ERam")
 
 Merged <- paste(dataResults\$Benchmark, dataResults\$Label, dataResults\$Distro, dataResults\$Kernel, dataResults\$Date, dataResults\$Test)
 dataResults <- cbind(dataResults, Merged)
@@ -14,7 +14,7 @@ for( index in 1:length(dataUnique) )
 {
     tmp <- subset(dataResults, Merged == dataUnique[index])
     tmpSubset <- tmp[1,c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Merged")]
-    tmpSubset\$Time <- round(mean(tmp\$Time), digits=2)
+    tmpSubset\$Result <- round(mean(tmp\$Result), digits=2)
 
     tmpSubset\$EPsys <- round(mean(tmp\$EPsys), digits=2)
     tmpSubset\$EPkg <- round(mean(tmp\$EPkg), digits=2)

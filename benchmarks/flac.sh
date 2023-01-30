@@ -1,6 +1,8 @@
 #!/bin/true
 
+# Import functions for this benchmark
 . ${executionPath}/benchmarks/helpers/wavfile.sh
+
 benchmarkLabels=("Encode (-3)"
                  "Encode (-8)"
                  "Decode")
@@ -14,8 +16,5 @@ benchmarkRepetition=(8
                      3
                      8)
 benchmarkAnalyze=( "${benchmarkTest[@]}" )
-
-# Import functions for this benchmark
-. ${executionPath}/common/benchmark-timer.sh
 
 requireTools cut flac wc

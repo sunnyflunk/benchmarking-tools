@@ -1,5 +1,6 @@
 #!/bin/true
 
+export DATA_BENCHMARK=1
 benchmarkSources=("perlbench")
 benchmarkSetup=("tar xf ${BT_CACHE_DIR}/release-1.002.tar.gz"
                 "cd perlbench-release-1.002")
@@ -13,8 +14,5 @@ benchmarkValidation=("echo '0'"
 benchmarkRepetition=(1
                      1)
 benchmarkAnalyze=( "${benchmarkTest[@]}" )
-
-# Import functions for this benchmark
-. ${executionPath}/common/benchmark-result.sh
 
 requireTools cat cut grep perl

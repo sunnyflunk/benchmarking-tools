@@ -7,7 +7,4 @@ benchmarkValidation=("echo '0'")
 benchmarkRepetition=(5)
 benchmarkAnalyze=( "${benchmarkTest[@]}" )
 
-# Import functions for this benchmark
-. ${executionPath}/common/benchmark-timer.sh
-
 requireTools gawk

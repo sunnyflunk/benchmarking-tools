@@ -1,6 +1,8 @@
 #!/bin/true
 
+# Import functions for this benchmark
 . ${executionPath}/benchmarks/helpers/linux-kernel.sh
+
 benchmarkLabels=("Compress Kernel (-5)"
                  "Compress Kernel (--best)"
                  "Decompress Kernel")
@@ -14,8 +16,5 @@ benchmarkRepetition=(2
                      1
                      10)
 benchmarkAnalyze=( "${benchmarkTest[@]}" )
-
-# Import functions for this benchmark
-. ${executionPath}/common/benchmark-timer.sh
 
 requireTools cut lz4 wc

@@ -1,6 +1,8 @@
 #!/bin/true
 
+# Import functions for this benchmark
 . ${executionPath}/benchmarks/helpers/wavfile.sh
+
 benchmarkLabels=("Encode (256 kbit/s)"
                  "Encode (128 kbit/s)"
                  "Decode")
@@ -14,8 +16,5 @@ benchmarkRepetition=(1
                      1
                      2)
 benchmarkAnalyze=( "${benchmarkTest[@]}" )
-
-# Import functions for this benchmark
-. ${executionPath}/common/benchmark-timer.sh
 
 requireTools cut opusenc opusdec wc
