@@ -28,7 +28,7 @@ for( index in 1:length(dataUnique) )
         tmpSubset\$Valid <- NA
     }
 
-    Variables <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Time", "EPsys", "EPkg", "ECores", "EGPU", "ERam", "Valid")
+    Variables <- c("Benchmark", "Label", "Distro", "Kernel", "Date", "Test", "Result", "EPsys", "EPkg", "ECores", "EGPU", "ERam", "Valid")
     if( exists("dataCombined") ) {
         dataCombined <- rbind(dataCombined, tmpSubset[, Variables])
     } else {
